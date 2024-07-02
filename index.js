@@ -9,7 +9,8 @@ const weatherApiKey = process.env.WEATHER_API_KEY
 
 app.get('/api/hello', (req, res) => {
     const visitorName = req.query.visitor_name || 'Anonymous';
-    const clientIp = req.ip;
+    const clientIp = req.socket.remoteAddress;
+ 
 
     // Use request library to call FreeGeoIP API
     request(`https://api.ipgeolocation.io/ipgeo?apiKey=${locationApiKey}`,(error, response, body) => {
@@ -25,7 +26,7 @@ app.get('/api/hello', (req, res) => {
 
             const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${weatherApiKey}&units=metric`;
             request(weatherUrl, (weatherError, weatherResponse, weatherBody) => {
-                console.log(weatherBody)
+            
                 if (weatherError) {
                     console.error(weatherError);
                     res.status(500).send('Error retrieving weather data');
@@ -49,3 +50,5 @@ app.get('/api/hello', (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
+
+
