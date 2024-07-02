@@ -9,7 +9,7 @@ const weatherApiKey = process.env.WEATHER_API_KEY
 
 app.get('/api/hello', (req, res) => {
     const visitorName = req.query.visitor_name || 'Anonymous';
-    const clientIp = req.socket.remoteAddress;
+    const clientIp = req.header('x-forwarded-for');;
  
 
     // Use request library to call FreeGeoIP API
@@ -50,5 +50,4 @@ app.get('/api/hello', (req, res) => {
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
-
 
